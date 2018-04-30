@@ -15,8 +15,8 @@ public class ChampConstantTest {
     
     public static void main(String[] args){
         LibraryOfBabel babel=new LibraryOfBabel();
-        System.out.println(babel.getPositionBigInteger(BigInteger.ONE, BigInteger.ONE, BigInteger.ONE, BigInteger.ZERO, BigInteger.ONE, BigInteger.ONE, BigInteger.ONE, BigInteger.ONE, BigInteger.ONE,new BigInteger("6"),new BigInteger("10")));
-        LibraryOfBabel.BabelAdress adresse=babel.getPositionBabelAdress(new BigInteger("6"));
+        LibraryOfBabel.BabelAdress adresse=babel.getPosition("Une phrase au hasard");
+        System.out.println(babel.getPositionBigInteger(adresse));
         System.out.println(adresse);
         System.out.println(babel.getPageContent(adresse));
     }

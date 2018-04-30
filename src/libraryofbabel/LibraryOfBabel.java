@@ -25,6 +25,7 @@ public class LibraryOfBabel {
     
     public class BabelAdress{
         
+        public final BigInteger DIMENSION;
         public final BigInteger AREA;
         public final BigInteger AVENUE;
         public final BigInteger BUILDING;
@@ -37,7 +38,8 @@ public class LibraryOfBabel {
         public final BigInteger LINE;
         public final BigInteger CHARACTER;
         
-        public BabelAdress(BigInteger area,BigInteger avenue,BigInteger building,BigInteger floor,BigInteger room,BigInteger bookcase,BigInteger shelf,BigInteger book,BigInteger page,BigInteger line,BigInteger character){
+        public BabelAdress(BigInteger dimension,BigInteger area,BigInteger avenue,BigInteger building,BigInteger floor,BigInteger room,BigInteger bookcase,BigInteger shelf,BigInteger book,BigInteger page,BigInteger line,BigInteger character){
+            this.DIMENSION=dimension;
             this.AREA=area;
             this.AVENUE=avenue;
             this.BUILDING=building;
@@ -51,9 +53,41 @@ public class LibraryOfBabel {
             this.CHARACTER=character;
         }
         
+        public BabelAdress(String dimension,String area,String avenue,String building,String floor,String room,String bookcase,String shelf,String book,String page,String line,String character){
+            this.DIMENSION=new BigInteger(dimension);
+            this.AREA=new BigInteger(area);
+            this.AVENUE=new BigInteger(avenue);
+            this.BUILDING=new BigInteger(building);
+            this.FLOOR=new BigInteger(floor);
+            this.ROOM=new BigInteger(room);
+            this.BOOKCASE=new BigInteger(bookcase);
+            this.SHELF=new BigInteger(shelf);
+            this.BOOK=new BigInteger(book);
+            this.PAGE=new BigInteger(page);
+            this.LINE=new BigInteger(line);
+            this.CHARACTER=new BigInteger(character);
+        }
+        
         @Override
         public String toString(){
-            return "Adresse :\nZone : "+getWord(this.AREA)+"\nAvenue n°"+this.AVENUE+"\nBâtiment n°"+this.BUILDING+"\nEtage "+this.FLOOR+"\nSalle n°"+this.ROOM+"\nBibliothèque "+this.BOOKCASE+"\n"+this.SHELF+"ème étagère\nLivre "+this.BOOK+"\nPage n°"+this.PAGE+"\nLigne n°"+this.LINE+"\nCaractère "+this.CHARACTER;
+            return "{\n"
+                    + "\tdimension:"+this.DIMENSION+",\n"
+                    + "\tarea:"+this.AREA+",\n"
+                    + "\tarea_text:"+getWord(this.AREA)+",\n"
+                    + "\tavenue:"+this.AVENUE+",\n"
+                    + "\tbuilding:"+this.BUILDING+",\n"
+                    + "\tfloor:"+this.FLOOR+",\n"
+                    + "\troom:"+this.ROOM+",\n"
+                    + "\tbookcase:"+this.BOOKCASE+",\n"
+                    + "\tshelf:"+this.SHELF+",\n"
+                    + "\tbook:"+this.BOOK+",\n"
+                    + "\tpage:"+this.PAGE+",\n"
+                    + "\tline:"+this.LINE+",\n"
+                    + "\tcharacter:"+this.CHARACTER+",\n"
+                    + "\tpositionAbsolute:"+getPositionBigInteger(this)+",\n"
+                    + "\tpositionPage:"+getPositionPageBigInteger(this)+",\n"
+                    + "\tpageContent:\""+getPageContent(this)+"\"\n"
+                    + "}";
         }
         
     }
@@ -66,11 +100,11 @@ public class LibraryOfBabel {
         this.BOOKCASES=new BigInteger("1000000",10); //1 MILLION DE BIBLIOTHEQUES PAR SALLE
         this.SHELVES=new BigInteger("1000",10); //1000 ETAGERES PAR BIBLIOTHEQUE
         this.BOOKS=new BigInteger("1000",10); //1000 LIVRES PAR ETAGERE
-        this.PAGES=new BigInteger("410",10);
-        this.LINES=new BigInteger("40",10);
-        this.CHARACTERS=new BigInteger("80",10);
-        this.CONSTANTE=new ChampernowneConstant();
-        this.ENCODE=3;
+        this.PAGES=new BigInteger("410",10); //410 PAGES PAR LIVRE
+        this.LINES=new BigInteger("40",10); //40 LIGNES PAR PAGE
+        this.CHARACTERS=new BigInteger("80",10); //80 CARACTERES PAR LIGNE
+        this.CONSTANTE=new ChampernowneConstant(); //SUITE UNIVERS UTILISEE
+        this.ENCODE=3; //NOMBRE DE DIMENSIONS
     }
     
     public void setParameters(String avenues,String buildings,String floors,String rooms,String bookcases,String shelves,String books,String pages,String lines,String characters){
@@ -96,63 +130,70 @@ public class LibraryOfBabel {
     
     public void setEncode(short encode){this.ENCODE=encode;}
     
-    public BigInteger getPositionBigInteger(BigInteger area,BigInteger avenue,BigInteger building,BigInteger floor,BigInteger room,BigInteger bookcase,BigInteger shelf,BigInteger book,BigInteger page,BigInteger line,BigInteger character){
-        return area.multiply(this.AVENUES)
-            .add(avenue.subtract(BigInteger.ONE).multiply(this.AVENUES))
-            .add(building.subtract(BigInteger.ONE).multiply(this.BUILDINGS))
-            .add(floor.multiply(this.ROOMS))
-            .add(room.subtract(BigInteger.ONE).multiply(this.BOOKCASES))
-            .add(bookcase.subtract(BigInteger.ONE).multiply(this.SHELVES))
-            .add(shelf.subtract(BigInteger.ONE).multiply(this.BOOKS))
-            .add(book.subtract(BigInteger.ONE).multiply(this.PAGES))
-            .add(page.subtract(BigInteger.ONE).multiply(this.LINES))
-            .add(line.subtract(BigInteger.ONE).multiply(this.CHARACTERS))
-            .add(character).multiply(new BigInteger(String.valueOf(this.ENCODE)));
+    public BigInteger getPositionBigInteger(BigInteger dimension, BigInteger area,BigInteger avenue,BigInteger building,BigInteger floor,BigInteger room,BigInteger bookcase,BigInteger shelf,BigInteger book,BigInteger page,BigInteger line,BigInteger character){
+        BigInteger char_encode=new BigInteger(String.valueOf(this.ENCODE));
+        BigInteger char_line=this.CHARACTERS.multiply(char_encode);
+        BigInteger char_page=this.LINES.multiply(char_line);
+        BigInteger char_book=this.PAGES.multiply(char_page);
+        BigInteger char_shelf=this.BOOKS.multiply(char_book);
+        BigInteger char_bookcase=this.SHELVES.multiply(char_shelf);
+        BigInteger char_room=this.BOOKCASES.multiply(char_bookcase);
+        BigInteger char_floor=this.ROOMS.multiply(char_room);
+        BigInteger char_building=this.FLOORS.multiply(char_floor);
+        BigInteger char_avenue=this.BUILDINGS.multiply(char_building);
+        BigInteger char_area=this.AVENUES.multiply(char_avenue);
+        
+        return area.multiply(char_area)
+            .add(avenue.subtract(BigInteger.ONE).multiply(char_avenue))
+            .add(building.subtract(BigInteger.ONE).multiply(char_building))
+            .add(floor.multiply(char_floor))
+            .add(room.subtract(BigInteger.ONE).multiply(char_room))
+            .add(bookcase.subtract(BigInteger.ONE).multiply(char_bookcase))
+            .add(shelf.subtract(BigInteger.ONE).multiply(char_shelf))
+            .add(book.subtract(BigInteger.ONE).multiply(char_book))
+            .add(page.subtract(BigInteger.ONE).multiply(char_page))
+            .add(line.subtract(BigInteger.ONE).multiply(char_line))
+            .add(character.subtract(BigInteger.ONE).multiply(char_encode))
+            .add(dimension);
     }
     
     public BigInteger getPositionBigInteger(BabelAdress adresse){
-        BigInteger char_encode=this.CHARACTERS.multiply(new BigInteger(String.valueOf(this.ENCODE)));
-        
-        BigInteger char_area=this.AVENUES.multiply(this.BUILDINGS).multiply(this.FLOORS).multiply(this.ROOMS).multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_avenue=this.BUILDINGS.multiply(this.FLOORS).multiply(this.ROOMS).multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_building=this.FLOORS.multiply(this.ROOMS).multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_floor=this.ROOMS.multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_room=this.BOOKCASES.multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_bookcase=this.SHELVES.multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_shelf=this.BOOKS.multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_book=this.PAGES.multiply(this.LINES).multiply(char_encode);
-        BigInteger char_page=this.LINES.multiply(char_encode);
-        
-        return adresse.AREA.multiply(char_area)
-            .add(adresse.AVENUE.subtract(BigInteger.ONE).multiply(char_avenue))
-            .add(adresse.BUILDING.subtract(BigInteger.ONE).multiply(char_building))
-            .add(adresse.FLOOR.multiply(char_floor))
-            .add(adresse.ROOM.subtract(BigInteger.ONE).multiply(char_room))
-            .add(adresse.BOOKCASE.subtract(BigInteger.ONE).multiply(char_bookcase))
-            .add(adresse.SHELF.subtract(BigInteger.ONE).multiply(char_shelf))
-            .add(adresse.BOOK.subtract(BigInteger.ONE).multiply(char_book))
-            .add(adresse.PAGE.subtract(BigInteger.ONE).multiply(char_page))
-            .add(adresse.LINE.subtract(BigInteger.ONE).multiply(char_encode))
-            .add(char_encode);
+        return this.getPositionBigInteger(adresse.DIMENSION,
+            adresse.AREA, 
+            adresse.AVENUE, 
+            adresse.BUILDING,
+            adresse.FLOOR,
+            adresse.ROOM,
+            adresse.BOOKCASE, 
+            adresse.SHELF, 
+            adresse.BOOK, 
+            adresse.PAGE, 
+            adresse.LINE, 
+            adresse.CHARACTER);
     }
     
     public BigInteger getPositionPageBigInteger(BabelAdress adresse){
-        return this.getPositionBigInteger(adresse).divide(this.PAGES).add(BigInteger.ONE);
+        BigInteger char_encode=new BigInteger(String.valueOf(this.ENCODE));
+        BigInteger char_line=this.CHARACTERS.multiply(char_encode);
+        BigInteger char_page=this.LINES.multiply(char_line);
+        
+        BigInteger adress=this.getPositionBigInteger(adresse);
+        return adress.subtract(adress.mod(char_page)).add(adresse.DIMENSION);
     }
     
     public BabelAdress getPositionBabelAdress(BigInteger position){
         BigInteger char_encode=new BigInteger(String.valueOf(this.ENCODE));
-        
-        BigInteger char_area=this.AVENUES.multiply(this.BUILDINGS).multiply(this.FLOORS).multiply(this.ROOMS).multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_avenue=this.BUILDINGS.multiply(this.FLOORS).multiply(this.ROOMS).multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_building=this.FLOORS.multiply(this.ROOMS).multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_floor=this.ROOMS.multiply(this.BOOKCASES).multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_room=this.BOOKCASES.multiply(this.SHELVES).multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_bookcase=this.SHELVES.multiply(this.BOOKS).multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_shelf=this.BOOKS.multiply(this.PAGES).multiply(this.LINES).multiply(char_encode);
-        BigInteger char_book=this.PAGES.multiply(this.LINES).multiply(char_encode);
-        BigInteger char_page=this.LINES.multiply(char_encode);
         BigInteger char_line=this.CHARACTERS.multiply(char_encode);
+        BigInteger char_page=this.LINES.multiply(char_line);
+        BigInteger char_book=this.PAGES.multiply(char_page);
+        BigInteger char_shelf=this.BOOKS.multiply(char_book);
+        BigInteger char_bookcase=this.SHELVES.multiply(char_shelf);
+        BigInteger char_room=this.BOOKCASES.multiply(char_bookcase);
+        BigInteger char_floor=this.ROOMS.multiply(char_room);
+        BigInteger char_building=this.FLOORS.multiply(char_floor);
+        BigInteger char_avenue=this.BUILDINGS.multiply(char_building);
+        BigInteger char_area=this.AVENUES.multiply(char_avenue);
+        BigInteger dimension=position.mod(char_encode);
         
         BigInteger area=position.divide(char_area);
         position=position.mod(char_area);
@@ -184,9 +225,9 @@ public class LibraryOfBabel {
         BigInteger line=position.divide(char_line).add(BigInteger.ONE);
         position=position.mod(char_line);
         
-        BigInteger character=position.divide(char_encode);
+        BigInteger character=position.divide(char_encode).add(new BigInteger(String.valueOf(dimension)));
         
-        return new BabelAdress(area,avenue,building,floor,room,bookcase,shelf,book,page,line,character);
+        return new BabelAdress(dimension,area,avenue,building,floor,room,bookcase,shelf,book,page,line,character);
     }
     
     public String getWord(BigInteger bigNumber){
@@ -225,7 +266,7 @@ public class LibraryOfBabel {
     
     public String getPageContent(BabelAdress adress){
         ChampernowneConstant.ChampernowneConstantResponse response=this.CONSTANTE.getDecimals(this.getPositionPageBigInteger(adress),this.ENCODE*this.CHARACTERS.intValueExact()*this.LINES.intValueExact()-1);
-        return response.DECIMALS;
+        return getWord(response.DECIMALS);
     }
     
 }
