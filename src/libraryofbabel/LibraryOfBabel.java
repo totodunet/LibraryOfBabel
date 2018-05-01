@@ -84,8 +84,9 @@ public class LibraryOfBabel {
                     + "\tpage:"+this.PAGE+",\n"
                     + "\tline:"+this.LINE+",\n"
                     + "\tcharacter:"+this.CHARACTER+",\n"
-                    + "\tpositionAbsolute:"+getPositionBigInteger(this)+",\n"
-                    + "\tpositionPage:"+getPositionPageBigInteger(this)+",\n"
+                    + "\tstartPositionAbsolute:"+getPositionBigInteger(this)+",\n"
+                    + "\tstartPositionPage:"+getPositionPageBigInteger(this)+",\n"
+                    + "\tstartPositionBook:"+getPositionBookBigInteger(this)+",\n"
                     + "\tpageContent:\""+getPageContent(this)+"\"\n"
                     + "}";
         }
@@ -93,7 +94,7 @@ public class LibraryOfBabel {
     }
     
     public LibraryOfBabel(){
-        this.AVENUES=new BigInteger("1000000",10); //1 MILLION AVENUES PAR ZONE
+        this.AVENUES=new BigInteger("1000000",10); //1 MILLION D'AVENUES PAR ZONE
         this.BUILDINGS=new BigInteger("1000000",10); //1 MILLION DE BATIMENTS PAR AVENUE
         this.FLOORS=new BigInteger("1000",10); //1000 ETAGES PAR BATIMENT
         this.ROOMS=new BigInteger("1000",10); //1000 SALLES PAR ETAGE
@@ -179,6 +180,16 @@ public class LibraryOfBabel {
         
         BigInteger adress=this.getPositionBigInteger(adresse);
         return adress.subtract(adress.mod(char_page)).add(adresse.DIMENSION);
+    }
+    
+    public BigInteger getPositionBookBigInteger(BabelAdress adresse){
+        BigInteger char_encode=new BigInteger(String.valueOf(this.ENCODE));
+        BigInteger char_line=this.CHARACTERS.multiply(char_encode);
+        BigInteger char_page=this.LINES.multiply(char_line);
+        BigInteger char_book=this.LINES.multiply(char_page);
+        
+        BigInteger adress=this.getPositionBigInteger(adresse);
+        return adress.subtract(adress.mod(char_book)).add(adresse.DIMENSION);
     }
     
     public BabelAdress getPositionBabelAdress(BigInteger position){
