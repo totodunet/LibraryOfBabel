@@ -70,27 +70,25 @@ public class LibraryOfBabel {
         
         @Override
         public String toString(){
-            return "{\n"
-                    + "\tdimension:"+this.DIMENSION+",\n"
-                    + "\tarea:"+this.AREA+",\n"
-                    + "\tarea_text:"+getWord(this.AREA)+",\n"
-                    + "\tavenue:"+this.AVENUE+",\n"
-                    + "\tbuilding:"+this.BUILDING+",\n"
-                    + "\tfloor:"+this.FLOOR+",\n"
-                    + "\troom:"+this.ROOM+",\n"
-                    + "\tbookcase:"+this.BOOKCASE+",\n"
-                    + "\tshelf:"+this.SHELF+",\n"
-                    + "\tbook:"+this.BOOK+",\n"
-                    + "\tpage:"+this.PAGE+",\n"
-                    + "\tline:"+this.LINE+",\n"
-                    + "\tcharacter:"+this.CHARACTER+",\n"
-                    + "\tstartPositionAbsolute:"+getPositionBigInteger(this)+",\n"
-                    + "\tstartPositionPage:"+getPositionPageBigInteger(this)+",\n"
-                    + "\tstartPositionBook:"+getPositionBookBigInteger(this)+",\n"
-                    + "\tpageContent:\""+getPageContent(this)+"\"\n"
-                    + "}";
+            return "{"
+                + "\"dimension\":"+this.DIMENSION+","
+                + "\"area\":"+this.AREA+","
+                + "\"avenue\":"+this.AVENUE+","
+                + "\"building\":"+this.BUILDING+","
+                + "\"floor\":"+this.FLOOR+","
+                + "\"room\":"+this.ROOM+","
+                + "\"bookcase\":"+this.BOOKCASE+","
+                + "\"shelf\":"+this.SHELF+","
+                + "\"book\":"+this.BOOK+","
+                + "\"page\":"+this.PAGE+","
+                + "\"line\":"+this.LINE+","
+                + "\"character\":"+this.CHARACTER+","
+                + "\"startPositionAbsolute\":\""+getPositionBigInteger(this)+"\","
+                + "\"startPositionPage\":\""+getPositionPageBigInteger(this)+"\","
+                + "\"startPositionBook\":\""+getPositionBookBigInteger(this)+"\","
+                + "\"pageContent\":\""+getPageContent(this)+"\""
+                + "}";
         }
-        
     }
     
     public LibraryOfBabel(){
@@ -105,7 +103,7 @@ public class LibraryOfBabel {
         this.LINES=new BigInteger("40",10); //40 LIGNES PAR PAGE
         this.CHARACTERS=new BigInteger("80",10); //80 CARACTERES PAR LIGNE
         this.CONSTANTE=new ChampernowneConstant(); //SUITE UNIVERS UTILISEE
-        this.ENCODE=3; //NOMBRE DE DIMENSIONS
+        this.ENCODE=10; //NOMBRE DE DIMENSIONS
     }
     
     public void setParameters(String avenues,String buildings,String floors,String rooms,String bookcases,String shelves,String books,String pages,String lines,String characters){
@@ -276,8 +274,8 @@ public class LibraryOfBabel {
     }
     
     public String getPageContent(BabelAdress adress){
-        ChampernowneConstant.ChampernowneConstantResponse response=this.CONSTANTE.getDecimals(this.getPositionPageBigInteger(adress),this.ENCODE*this.CHARACTERS.intValueExact()*this.LINES.intValueExact()-1);
-        return getWord(response.DECIMALS);
+        ChampernowneConstant.ChampernowneConstantResponse response=this.CONSTANTE.getDecimals(this.getPositionPageBigInteger(adress),this.ENCODE*this.CHARACTERS.intValueExact()*this.LINES.intValueExact()+1);
+        return response.DECIMALS;
     }
     
 }
