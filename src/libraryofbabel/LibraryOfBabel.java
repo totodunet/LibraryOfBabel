@@ -103,7 +103,7 @@ public class LibraryOfBabel {
         this.LINES=new BigInteger("40",10); //40 LIGNES PAR PAGE
         this.CHARACTERS=new BigInteger("80",10); //80 CARACTERES PAR LIGNE
         this.CONSTANTE=new ChampernowneConstant(); //SUITE UNIVERS UTILISEE
-        this.ENCODE=10; //NOMBRE DE DIMENSIONS
+        this.ENCODE=3; //NOMBRE DE DIMENSIONS
     }
     
     public void setParameters(String avenues,String buildings,String floors,String rooms,String bookcases,String shelves,String books,String pages,String lines,String characters){
@@ -270,11 +270,11 @@ public class LibraryOfBabel {
     }
     
     public BabelAdress getPosition(String chaine){
-        return this.getPositionBabelAdress(this.CONSTANTE.getPosition(this.encodeWord(chaine)));
+        return this.getPositionBabelAdress(this.CONSTANTE.getPosition(chaine));
     }
     
     public String getPageContent(BabelAdress adress){
-        ChampernowneConstant.ChampernowneConstantResponse response=this.CONSTANTE.getDecimals(this.getPositionPageBigInteger(adress),this.ENCODE*this.CHARACTERS.intValueExact()*this.LINES.intValueExact()+1);
+        ChampernowneConstant.ChampernowneConstantResponse response=this.CONSTANTE.getDecimals(this.getPositionPageBigInteger(adress),this.ENCODE*(this.CHARACTERS.intValueExact()+1)*(this.LINES.intValueExact()+1));
         return response.DECIMALS;
     }
     
