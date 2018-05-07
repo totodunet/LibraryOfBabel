@@ -274,8 +274,7 @@ public class LibraryOfBabel {
     }
     
     public String getPageContent(BabelAdress adress){
-        ChampernowneConstant.ChampernowneConstantResponse response=this.CONSTANTE.getDecimals(this.getPositionPageBigInteger(adress),this.ENCODE*(this.CHARACTERS.intValueExact()+1)*(this.LINES.intValueExact()+1));
-        return response.DECIMALS;
-    }
-    
+        ChampernowneConstant.ChampernowneConstantResponse response=this.CONSTANTE.getDecimals(this.getPositionPageBigInteger(adress),this.ENCODE*this.CHARACTERS.intValueExact()*this.LINES.intValueExact()-(this.ENCODE-1));
+        return response.DECIMAL+response.DECIMALS;
+    }   
 }
