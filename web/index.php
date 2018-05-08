@@ -3,23 +3,7 @@
 <head>
 	<title>Bibliothèque de Babel</title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
-		function dec_to_ascii(nbr){
-			var chaine="";
-			for(var i=0;i<nbr.length;i+=3)
-				chaine+=String.fromCharCode(nbr[i]+nbr[i+1]+nbr[i+2]/*+nbr[i+3]+nbr[i+4]+nbr[i+5]+nbr[i+6]+nbr[i+7]+nbr[i+8]+nbr[i+9]*/);
-			return chaine;
-		}
-		function ascii_to_dec(str){
-			var nombre="";
-			var digit;
-			for(var i=0;i<str.length;i++){
-				digit=str.charCodeAt(i).toString();
-				nombre+="0".repeat(3-digit.length)+digit;
-			}
-			return nombre;
-		}
-	</script>
+	<script type="text/javascript" src="scripts/script.js"></script>
 </head>
 <body>
 	<div>
@@ -27,10 +11,10 @@
 		<h2>Dimension <span name="dimension">0</span></h2>
 		<label for="dimension">Changer de dimension</label>
 		<input type="number" min="0" max="9" value="0"/>
-		<input type="button" value="Revenir à l'accueil"/>
+		<input type="button" value="Swapper !!"/>
 	</div>
-	<div>
-		<p>Bienvenue dans la Bibliothèque de Babel Dimension <span id="dimension">0</span> ! Il s'agit de la plus grande bibliothèque de l'Univers.</p>
+	<div id="content">
+		<p>Bienvenue dans la Bibliothèque de Babel (dimension <span id="dimension">0</span>) ! Il s'agit de la plus grande bibliothèque de l'Univers.</p>
 		<p>C'est ici que sont déposées toutes les créations de l'Univers. 
 		L'Univers écrit une quantité inimaginable d'histoires à tout instant. 
 		Même si vous avez l'éternité devant vous, vous ne pourrez jamais tout lire dans la Bibliothèque de Babel. 
@@ -40,7 +24,7 @@
 		Chaque zone dispose d'1 million d'avenues qui comprennent 1 million de bâtiments de 1000 étages.
 		A chaque étage vous aurez 1000 salles. Dans ces salles, vous verrez toujours 1000 bibliothèques de 1000 étagères où sont rangés 1000 livres.
 		Au total il y a donc 1 milliard de milliard de milliard (10^27) de livres par zone. Pas plus, pas moins.
-		Le nombre de livres distincts de la Bibliothèque s'élève ici à 10^3936000. Un 1 avec 3 936 000 zéros derrière. A titre de comparaison, les astrophysiciens estiment le nombre total d'atomes dans notre univers observable autour de 10^80.
+		Le nombre de livres distincts de la Bibliothèque s'élève sur ce site à 10^3936000. Un 1 avec 3 936 000 zéros derrière. A titre de comparaison, les astrophysiciens estiment le nombre total d'atomes dans notre univers observable autour de 10^80.
 		<p>Construire une telle Bibliothèque dans le monde réel est un défi divin. C'est pourquoi elle est dématérialisée.
 		Conscient que l'immensité de la Bibliothèque vous dépasse, car immensurable, les voyages dans la Bibliothèque se feront en empruntant un <a href="https://fr.wikipedia.org/wiki/Trou_de_ver" target="_blank">trou de ver</a>.
 		Ce sont des portails qui permettent d'accéder de n'importe quel point à un autre en simulant une déformation spatiale. Comme dans Stargate en gros...
@@ -68,9 +52,9 @@
 		Vous serez alors perdu à tout jamais dans la Bibliothèque, quelque part je ne sais où, sans qu'il n'y ait guère de chance que je vous retrouve. Je pourrai perdre mon travail, c'est très grave.
 		Je suis d'ailleurs régulièrement testé par mon auteur sur ce sujet. Pensez-y, les livres sont très importants, ce sont les piliers de la Bibliothèque.
 		Par précaution ils sont tous enchaînés à leur étagère afin d'éviter toute disparition innocente ou une permutation involontaire d'un livre avec son voisin.
-		Bien entendu la règle du "je repose le livre à l'endroit où je l'ai trouvé" ne s'applique pas seulement à la Bibliothèque de Babel. Elles s'appliquent à toutes les bibliothèques du monde. Si vous avez compris cela, je vous dit donc bonne lecture :)</p>
-		<p>Je pense n'avoir rien oublié concernant la Bibliothèque de Babel dimension <span id="dimension">0</span>. Mes doubles vous répèteront la même chose dans les autres dimensions alternatifs.</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/64y0sBkC9NQ?rel=0&amp;controls=0&amp;showinfo=0&amp;start=313" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+		Bien entendu la règle du "je repose le livre à l'endroit où je l'ai trouvé" ne s'applique pas seulement à la Bibliothèque de Babel. Elles s'appliquent à toutes les bibliothèques du monde. Si vous avez compris cela, je vous dis donc bonne lecture :)</p>
+		<p>Je pense n'avoir rien oublié concernant la Bibliothèque de Babel (dimension <span id="dimension">0</span>). Mes doubles vous répèteront la même chose dans les dimensions alternatifs.</p>
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/64y0sBkC9NQ?rel=0&amp;controls=0&amp;showinfo=0&amp;start=250" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 		<p><a href="#" onclick="javascript:searchFormBabel();">J'ai compris et je veux faire une recherche</a></p><p><a href="#" onclick="javascript:searchFormBabel();">Je n'ai pas compris mais c'est pas grave, je veux faire une recherche quand même</a></p><p><a href="http://totodu.net/Main/NombreUnivers" target="_blank">Je voudrais en savoir davantage sur cette magie</a></p>
 	</div>
 	<footer>
@@ -87,7 +71,7 @@
 				<label for="room">Salle :</label>
 				<input id="room" type="number" min="1" max="1000"/>
 				<label for="floor">Etage :</label>
-				<input id="floor" type="number" min="1" max="1000"/>
+				<input id="floor" type="number" min="0" max="999"/>
 				<label for="building">Bâtiment :</label>
 				<input id="building" type="number" min="1" max="1000000"/>
 				<label for="avenue">Avenue :</label>
