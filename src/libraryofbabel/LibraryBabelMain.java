@@ -22,7 +22,8 @@ public class LibraryBabelMain {
             
             //rechercher
             if(args[0].equals("search")){
-               System.out.println(library.getPosition(args[1]));
+                if(args[1].equals("-d"))System.out.println(library.getPosition(args[3],args[2]));
+                else System.out.println(library.getPosition(args[1]));
             }
             //parcourir
             else if(args[0].equals("move")){

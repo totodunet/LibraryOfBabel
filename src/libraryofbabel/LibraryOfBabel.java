@@ -270,7 +270,20 @@ public class LibraryOfBabel {
     }
     
     public BabelAdress getPosition(String chaine){
-        return this.getPositionBabelAdress(this.CONSTANTE.getPosition(chaine));
+        return this.getPositionBabelAdress(this.CONSTANTE.getPosition(encodeWord(chaine)));
+    }
+    
+    public BabelAdress getPosition(String chaine, String dimension){
+        BigInteger char_encode=new BigInteger(String.valueOf(this.ENCODE));
+        BigInteger dim=new BigInteger(dimension);
+        BigInteger position=this.CONSTANTE.getPosition(encodeWord(chaine));
+        int i=0;
+        while(position.mod(char_encode).compareTo(dim)!=0){
+            chaine=getWord(String.valueOf(i))+chaine+getWord(String.valueOf(i));
+            position=this.CONSTANTE.getPosition(encodeWord(chaine));
+            i++;
+        }
+        return this.getPositionBabelAdress(position);
     }
     
     public String getPageContent(BabelAdress adress){
