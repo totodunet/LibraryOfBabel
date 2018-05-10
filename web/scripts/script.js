@@ -44,6 +44,7 @@ function goPage(){
 			page:$('#page').val()
 		},
 		success:function(data){
+			$('#content').html(data);
 			$('#content').html(dec_to_ascii(data.pageContent));
 		},
 		error:function(err){
@@ -58,7 +59,8 @@ function searchText(){
 		url:'scripts/searchBabel.php',
 		dataType:'json',
 		data:{
-			
+			dimension:dim,
+			text:$('#text').text()
 		},
 		success:function(data){
 			$('#content').html(dec_to_ascii(data));
@@ -72,10 +74,7 @@ function searchText(){
 function swapDimension(){
 	dim=$('#dimension').val();
 	$('#content').html(introductionHtml);
-	$('span .dimension').each(function(){
-		console.log($(this).val());
-		$(this).text(dim);
-	});
+	$('.dim').text(dim);
 	$('form').each(function(){
 		$(this).get(0).reset();
 	});

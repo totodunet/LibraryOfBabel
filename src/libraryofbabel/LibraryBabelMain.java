@@ -39,7 +39,7 @@ public class LibraryBabelMain {
                     args[10],
                     args[11],
                     args[12]);
-                System.out.println(library.getPageContent(adresse));
+                System.out.println(adresse);
             }
             else{
                 System.out.println("Error : Bad parameters");
