@@ -72,7 +72,7 @@ public class LibraryOfBabel {
         public String toString(){
             return "{"
                 + "\"dimension\":"+this.DIMENSION+","
-                + "\"area\":"+this.AREA+","
+                + "\"area\":\""+this.AREA+"\","
                 + "\"avenue\":"+this.AVENUE+","
                 + "\"building\":"+this.BUILDING+","
                 + "\"floor\":"+this.FLOOR+","
@@ -96,7 +96,7 @@ public class LibraryOfBabel {
         this.BUILDINGS=new BigInteger("1000000",10); //1 MILLION DE BATIMENTS PAR AVENUE
         this.FLOORS=new BigInteger("1000",10); //1000 ETAGES PAR BATIMENT
         this.ROOMS=new BigInteger("1000",10); //1000 SALLES PAR ETAGE
-        this.BOOKCASES=new BigInteger("1000000",10); //1 MILLION DE BIBLIOTHEQUES PAR SALLE
+        this.BOOKCASES=new BigInteger("1000",10); //1 MILLION DE BIBLIOTHEQUES PAR SALLE
         this.SHELVES=new BigInteger("1000",10); //1000 ETAGERES PAR BIBLIOTHEQUE
         this.BOOKS=new BigInteger("1000",10); //1000 LIVRES PAR ETAGERE
         this.PAGES=new BigInteger("410",10); //410 PAGES PAR LIVRE
@@ -270,17 +270,17 @@ public class LibraryOfBabel {
     }
     
     public BabelAdress getPosition(String chaine){
-        return this.getPositionBabelAdress(this.CONSTANTE.getPosition(encodeWord(chaine)));
+        return this.getPositionBabelAdress(this.CONSTANTE.getPosition(chaine));
     }
     
     public BabelAdress getPosition(String chaine, String dimension){
         BigInteger char_encode=new BigInteger(String.valueOf(this.ENCODE));
         BigInteger dim=new BigInteger(dimension);
-        BigInteger position=this.CONSTANTE.getPosition(encodeWord(chaine));
+        BigInteger position=this.CONSTANTE.getPosition(chaine);
         int i=0;
         while(position.mod(char_encode).compareTo(dim)!=0){
-            chaine=getWord(String.valueOf(i))+chaine+getWord(String.valueOf(i));
-            position=this.CONSTANTE.getPosition(encodeWord(chaine));
+            chaine=i+chaine+i;
+            position=this.CONSTANTE.getPosition(chaine);
             i++;
         }
         return this.getPositionBabelAdress(position);

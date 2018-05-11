@@ -1,0 +1,105 @@
+html, body{
+	font-family:Trebuchet MS, Verdana, Sans-serif;
+}
+
+h1{
+	font-size:200%;
+	font-weight:bold;
+	margin-bottom:5px;
+}
+
+h2{
+	font-size:150%;
+	font-weight:bold;
+	margin-bottom:5px;
+}
+
+strong{
+	font-weight:bold;
+}
+
+/*------------HEADER------------------*/
+
+header{
+	position:fixed;
+	text-align:center;
+	width:100%;
+	padding-top:5px;
+	background-color:white;
+}
+
+/*------------CONTENT-----------------*/
+
+#content{
+	float:left;
+	width:70%;
+	text-align:justify;
+	padding:10px;
+	padding-top:150px;
+}
+
+#content>p{
+	padding:10px;
+}
+
+#video_destin{
+	display:block;
+	text-align:center;
+}
+
+#content>p:first-child{
+	text-align:center;
+	font-weight:bold;
+	
+}
+
+#forms{
+	float:right;
+	width:28%;
+	padding-top:180px;
+}
+
+#forms input{
+	width:90%;
+	padding:10px;
+	margin:5px;
+}
+
+fieldset{
+	margin-bottom:20px;
+	margin-right:10px;
+	padding:10px;
+	border:1px solid black;
+}
+
+legend {
+	font-weight:bold
+}
+
+label{
+	margin-top:5px;
+	display:block;
+}
+
+label.inline{
+	display:inline;
+	margin-right:50px;
+}
+
+/*------------FOOTER------------------*/
+
+#piproject{
+	width:150px;
+	height:130px;
+	margin-top:20px;
+	margin-bottom:5px;
+}
+
+footer{
+	font-size:18px;
+	line-height:25px;
+	clear:both;
+	text-align:center;
+	width:100%;
+	padding-top:5px;
+}
